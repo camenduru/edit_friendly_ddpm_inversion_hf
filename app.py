@@ -76,11 +76,13 @@ def invert_and_reconstruct(input_image,
             steps=100,
             src_cfg_scale = 3.5,
             skip=36,
+            seed = 0,
             left = 0,
             right = 0,
             top = 0,
             bottom = 0
 ):
+    torch.manual_seed(seed)
      # offsets=(0,0,0,0)
     x0 = load_512(input_image, left,right, top, bottom, device)
 
@@ -99,9 +101,10 @@ def edit(tar_prompt="",
         steps=100,
         skip=36,
         tar_cfg_scale=15,
+        seed = 0
 
 ):
-
+    torch.manual_seed(seed)
     out = sample(wt=inversion_map['wt'], zs= inversion_map['zs'], wts=inversion_map['wts'], prompt_tar=tar_prompt, 
                            cfg_scale_tar=tar_cfg_scale, skip=skip)
     
@@ -160,6 +163,7 @@ with gr.Blocks() as demo:
                 # reconstruction
                 skip = gr.Slider(minimum=0, maximum=40, value=36, precision=0, label="Skip Steps", interactive=True)
                 tar_cfg_scale = gr.Slider(minimum=7, maximum=18,value=15, label=f"Target Guidance Scale", interactive=True)
+                seed = gr.Number(value=0, precision=0, label="Seed", interactive=True)
 
             #shift
             with gr.Column():
@@ -180,6 +184,7 @@ with gr.Blocks() as demo:
                     steps,
                     src_cfg_scale,
                     skip,
+                seed,
                     left,
                     right,
                     top,
@@ -194,6 +199,7 @@ with gr.Blocks() as demo:
                     steps,
                     skip,
                     tar_cfg_scale,
+                seed
         ],
         outputs=[output_image],
     )
