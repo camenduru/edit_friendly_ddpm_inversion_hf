@@ -8,7 +8,7 @@ import os
 import yaml
 import numpy as np
 import gradio as gr
-
+torch.manual_seed(0)
 
 def load_512(image_path, left=0, right=0, top=0, bottom=0, device=None):
     if type(image_path) is str:
