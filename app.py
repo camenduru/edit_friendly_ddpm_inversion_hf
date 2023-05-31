@@ -69,10 +69,10 @@ def get_example():
              ],]
     return case
 
-inversion_map = dict()
 
-def invert_and_reconstruct(input_image, 
+def edit(input_image, 
             src_prompt ="", 
+            tar_prompt="",
             steps=100,
             src_cfg_scale = 3.5,
             skip=36,
@@ -87,31 +87,16 @@ def invert_and_reconstruct(input_image,
     x0 = load_512(input_image, left,right, top, bottom, device)
 
 
-    # invert
+    # invert and retrieve noise maps and latent
     wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=src_cfg_scale)
 
-    # latnets = wts[skip].expand(1, -1, -1, -1)
-    inversion_map['wt'] = wt
-    inversion_map['zs'] = zs
-    inversion_map['wts'] = wts
-    
-    return sample(wt, zs, wts, prompt_tar=src_prompt)
+    #
+    output = sample(wt, zs, wts, prompt_tar=tar_prompt)
 
-def edit(tar_prompt="", 
-        steps=100,
-        skip=36,
-        tar_cfg_scale=15,
-        seed = 0
+    return output
 
-):
-    torch.manual_seed(seed)
-    out = sample(wt=inversion_map['wt'], zs= inversion_map['zs'], wts=inversion_map['wts'], prompt_tar=tar_prompt, 
-                           cfg_scale_tar=tar_cfg_scale, skip=skip)
-    
-    return out
 
-def reset():
-    inversion_map.clear()
+
 
 
 ########
@@ -178,13 +163,14 @@ with gr.Blocks() as demo:
     # gr.Markdown(help_text)
 
     invert_button.click(
-        fn=invert_and_reconstruct,
+        fn=edit,
         inputs=[input_image, 
                     src_prompt, 
+                    src_prompt,
                     steps,
                     src_cfg_scale,
                     skip,
-                seed,
+                    seed,
                     left,
                     right,
                     top,
@@ -195,11 +181,17 @@ with gr.Blocks() as demo:
 
     edit_button.click(
         fn=edit,
-        inputs=[tar_prompt, 
-                    steps,
-                    skip,
-                    tar_cfg_scale,
-                seed
+        inputs=[input_image, 
+            src_prompt, 
+            tar_prompt,
+            steps,
+            src_cfg_scale,
+            skip,
+            seed,
+            left,
+            right,
+            top,
+            bottom
         ],
         outputs=[output_image],
     )
