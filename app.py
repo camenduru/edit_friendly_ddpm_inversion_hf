@@ -57,13 +57,14 @@ sd_pipe.scheduler = DDIMScheduler.from_config(sd_model_id, subfolder = "schedule
 def get_example():
     case = [
         [
-            'examples/source_a_man_wearing_a_brown_hoodie_in_a_crowded_street.jpeg', 
-            'a man wearing a brown hoodie in a crowded street',
-            'a robot wearing a brown hoodie in a crowded street',
+            'Examples/gnochi_mirror.jpeg', 
+            '',
+            '',
             100,
+            3.5,
             36,
             15,
-            'examples/ddpm_a_robot_wearing_a_brown_hoodie_in_a_crowded_street.png', 
+            'Examples/gnochi_mirror_reconstrcution.png', 
              ],]
     return case
 
@@ -204,19 +205,19 @@ with gr.Blocks() as demo:
         fn = reset
     )
 
-    # gr.Examples(
-    #     label='Examples', 
-    #     examples=get_example(), 
-    #     inputs=[input_image, src_prompt, tar_prompt, steps,
-    #                 src_cfg_scale,
-    #                 skip,
-    #                 tar_cfg_scale,
-    #                 inverted_image, 
-    #            ],
-    #     outputs=[inverted_image],
-    #     # fn=edit,
-    #     # cache_examples=True
-    # )
+    gr.Examples(
+        label='Examples', 
+        examples=get_example(), 
+        inputs=[input_image, src_prompt, tar_prompt, steps,
+                    src_cfg_scale,
+                    skip,
+                    tar_cfg_scale,
+                    inverted_image, 
+               ],
+        outputs=[inverted_image],
+        # fn=edit,
+        # cache_examples=True
+    )
 
 
 
