@@ -65,6 +65,7 @@ def get_example():
             36,
             15,
             'Examples/gnochi_mirror_reconstrcution.png', 
+            'Examples/gnochi_mirror_watercolor_painting.png', 
              ],]
     return case
 
@@ -212,9 +213,9 @@ with gr.Blocks() as demo:
                     src_cfg_scale,
                     skip,
                     tar_cfg_scale,
-                    inverted_image, 
+                    inverted_image, output_image
                ],
-        outputs=[inverted_image],
+        outputs=[inverted_image,output_image ],
         # fn=edit,
         # cache_examples=True
     )
