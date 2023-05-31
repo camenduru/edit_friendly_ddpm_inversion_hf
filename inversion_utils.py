@@ -7,6 +7,7 @@ import torchvision.transforms as T
 import os
 import yaml
 import numpy as np
+import gradio as gr
 
 
 def load_512(image_path, left=0, right=0, top=0, bottom=0, device=None):
@@ -129,10 +130,11 @@ def get_variance(model, timestep): #, prev_timestep):
 
 def inversion_forward_process(model, x0, 
                             etas = None,    
-                            prog_bar = False,
+                            prog_bar = True,
                             prompt = "",
                             cfg_scale = 3.5,
-                            num_inference_steps=50, eps = None):
+                            num_inference_steps=50, eps = None
+                              progress=gr.Progress()):
 
     if not prompt=="":
         text_embeddings = encode_text(model, prompt)
@@ -155,7 +157,7 @@ def inversion_forward_process(model, x0,
         
     t_to_idx = {int(v):k for k,v in enumerate(timesteps)}
     xt = x0
-    op = tqdm(reversed(timesteps)) if prog_bar else reversed(timesteps)
+    op = progress.tqdm(reversed(timesteps)) if prog_bar else reversed(timesteps)
 
     for t in op:
         idx = t_to_idx[int(t)]
@@ -241,10 +243,11 @@ def inversion_reverse_process(model,
                     etas = 0,
                     prompts = "",
                     cfg_scales = None,
-                    prog_bar = False,
+                    prog_bar = True,
                     zs = None,
                     controller=None,
-                    asyrp = False):
+                    asyrp = False,
+                    progress=gr.Progress()):
 
     batch_size = len(prompts)
 
@@ -259,7 +262,7 @@ def inversion_reverse_process(model,
     timesteps = model.scheduler.timesteps.to(model.device)
 
     xt = xT.expand(batch_size, -1, -1, -1)
-    op = tqdm(timesteps[-zs.shape[0]:]) if prog_bar else timesteps[-zs.shape[0]:] 
+    op = progress.tqdm(timesteps[-zs.shape[0]:]) if prog_bar else timesteps[-zs.shape[0]:] 
 
     t_to_idx = {int(v):k for k,v in enumerate(timesteps[-zs.shape[0]:])}
 
