@@ -101,14 +101,11 @@ def edit(tar_prompt="",
         tar_cfg_scale=15,
 
 ):
-    outputs = []
-    num_generations = 1
-    for i in range(num_generations):
-        out = sample(wt=inversion_map['wt'], zs= inversion_map['zs'], wts=inversion_map['wts'], prompt_tar=tar_prompt, 
-                               cfg_scale_tar=tar_cfg_scale, skip=skip)
-        outputs.append(out)
+
+    out = sample(wt=inversion_map['wt'], zs= inversion_map['zs'], wts=inversion_map['wts'], prompt_tar=tar_prompt, 
+                           cfg_scale_tar=tar_cfg_scale, skip=skip)
     
-    return outputs
+    return out
 
 def reset():
     inversion_map.clear()
