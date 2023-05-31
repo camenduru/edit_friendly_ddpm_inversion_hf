@@ -88,8 +88,8 @@ def invert_and_reconstruct(input_image,
     # invert
     wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=src_cfg_scale)
 
-    latnets = wts[skip].expand(1, -1, -1, -1)
-    inversion_map['latnets'] = latnets
+    # latnets = wts[skip].expand(1, -1, -1, -1)
+    inversion_map['wt'] = wt
     inversion_map['zs'] = zs
     inversion_map['wts'] = wts
     
@@ -104,7 +104,7 @@ def edit(tar_prompt="",
     outputs = []
     num_generations = 1
     for i in range(num_generations):
-        out = sample(wt, zs, wts, prompt_tar=tar_prompt, 
+        out = sample(wt=inversion_map['wt'], zs= inversion_map['zs'], wts=inversion_map['wts'], prompt_tar=tar_prompt, 
                                cfg_scale_tar=tar_cfg_scale, skip=skip)
         outputs.append(out)
     
