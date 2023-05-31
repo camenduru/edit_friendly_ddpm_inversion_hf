@@ -70,7 +70,7 @@ def get_example():
 
 inversion_map = dict()
 
-def invert(input_image, 
+def invert_and_reconstruct(input_image, 
             src_prompt ="", 
             steps=100,
             src_cfg_scale = 3.5,
@@ -175,7 +175,7 @@ with gr.Blocks() as demo:
     # gr.Markdown(help_text)
 
     invert_button.click(
-        fn=invert,
+        fn=invert_and_reconstruct,
         inputs=[input_image, 
                     src_prompt, 
                     steps,
