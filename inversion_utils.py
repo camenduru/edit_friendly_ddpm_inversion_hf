@@ -130,11 +130,11 @@ def get_variance(model, timestep): #, prev_timestep):
 
 def inversion_forward_process(model, x0, 
                             etas = None,    
-                            prog_bar = True,
+                            prog_bar = False,
                             prompt = "",
                             cfg_scale = 3.5,
                             num_inference_steps=50, eps = None
-                              progress=gr.Progress()):
+                             ):
 
     if not prompt=="":
         text_embeddings = encode_text(model, prompt)
@@ -243,11 +243,11 @@ def inversion_reverse_process(model,
                     etas = 0,
                     prompts = "",
                     cfg_scales = None,
-                    prog_bar = True,
+                    prog_bar = False,
                     zs = None,
                     controller=None,
-                    asyrp = False,
-                    progress=gr.Progress()):
+                    asyrp = False
+                    ):
 
     batch_size = len(prompts)
 
