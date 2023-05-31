@@ -157,7 +157,7 @@ def inversion_forward_process(model, x0,
         
     t_to_idx = {int(v):k for k,v in enumerate(timesteps)}
     xt = x0
-    op = progress.tqdm(reversed(timesteps)) if prog_bar else reversed(timesteps)
+    op = tqdm(reversed(timesteps)) if prog_bar else reversed(timesteps)
 
     for t in op:
         idx = t_to_idx[int(t)]
