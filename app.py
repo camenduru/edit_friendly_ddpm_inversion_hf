@@ -59,7 +59,7 @@ def get_example():
         [
             'Examples/gnochi_mirror.jpeg', 
             '',
-            '',
+            'watercolor painting of a cat sitting next to a mirror',
             100,
             3.5,
             36,
