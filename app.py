@@ -63,38 +63,8 @@ def get_example():
             100,
             36,
             15,
-            '+painting',
-            10,
-            1,
             'examples/ddpm_a_robot_wearing_a_brown_hoodie_in_a_crowded_street.png', 
-            'examples/ddpm_sega_painting_of_a_robot_wearing_a_brown_hoodie_in_a_crowded_street.png'
-             ],
-    [
-            'examples/source_wall_with_framed_photos.jpeg', 
-            '',
-            '',
-            100,
-            36,
-            15,
-            '+pink drawings of muffins',
-            10,
-            1,
-            'examples/ddpm_wall_with_framed_photos.png', 
-            'examples/ddpm_sega_plus_pink_drawings_of_muffins.png'
-             ],
-    [
-            'examples/source_an_empty_room_with_concrete_walls.jpg', 
-            'an empty room with concrete walls',
-            'glass walls',
-            100,
-            36,
-            17,
-            '+giant elephant',
-            10,
-            1,
-            'examples/ddpm_glass_walls.png', 
-            'examples/ddpm_sega_glass_walls_gian_elephant.png'
-             ]]
+             ],]
     return case
 
 inversion_map = dict()
@@ -119,11 +89,8 @@ def invert(input_image,
     inversion_map['latnets'] = latnets
     inversion_map['zs'] = zs
     inversion_map['wts'] = wts
-
     
-
-    
-    return 
+    return sample(wt, zs, wts, prompt_tar=src_prompt)
 
 def edit(tar_prompt="", 
         steps=100,
@@ -165,20 +132,22 @@ with gr.Blocks() as demo:
     gr.HTML(intro)
     with gr.Row():
         src_prompt = gr.Textbox(lines=1, label="Source Prompt", interactive=True, placeholder="optional: describe the original image")
-        tar_prompt = gr.Textbox(lines=1, label="Target Prompt", interactive=True, placeholder="optional: describe the target image to edit with DDPM")
+        tar_prompt = gr.Textbox(lines=1, label="Target Prompt", interactive=True, placeholder="optional: describe the target image")
 
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
         input_image.style(height=512, width=512)
+        inverted_image = gr.Image(label=f"Reconstructed Image", interactive=False)
+        inverted_image.style(height=512, width=512)
         output_image = gr.Image(label=f"Edited Image", interactive=False)
         output_image.style(height=512, width=512)
 
 
     with gr.Row():
         with gr.Column(scale=1, min_width=100):
-            invert_button = gr.Button("Load & Invert")
+            invert_button = gr.Button("Invert")
         with gr.Column(scale=1, min_width=100):
-            edit_button = gr.Button("Sample & Edit")
+            edit_button = gr.Button("Edit")
 
 
     with gr.Accordion("Advanced Options", open=False):
@@ -215,7 +184,7 @@ with gr.Blocks() as demo:
                     top,
                     bottom
         ],
-        outputs = [],
+        outputs = [inverted_image],
     )
 
     edit_button.click(
@@ -239,16 +208,12 @@ with gr.Blocks() as demo:
     #     label='Examples', 
     #     examples=get_example(), 
     #     inputs=[input_image, src_prompt, tar_prompt, steps,
-    #                 # src_cfg_scale,
+    #                 src_cfg_scale,
     #                 skip,
     #                 tar_cfg_scale,
-    #                 edit_concept,
-    #                 sega_edit_guidance,
-    #                 warm_up,
-    #                 # neg_guidance,
-    #                 ddpm_edited_image, sega_edited_image
+    #                 inverted_image, 
     #            ],
-    #     outputs=[ddpm_edited_image, sega_edited_image],
+    #     outputs=[inverted_image],
     #     # fn=edit,
     #     # cache_examples=True
     # )
