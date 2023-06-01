@@ -95,9 +95,9 @@ For faster inference without waiting in queue, you may duplicate the space and u
 with gr.Blocks(css='style.css') as demo:
     
     def reset_latents():
-    wt = gr.State(value=None)
-    zs = gr.State(value=None)
-    wts = gr.State(value=None)
+        wt = gr.State(value=None)
+        zs = gr.State(value=None)
+        wts = gr.State(value=None)
 
     def edit(input_image,
              wt, zs, wts,
@@ -129,8 +129,6 @@ with gr.Blocks(css='style.css') as demo:
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
         input_image.style(height=512, width=512)
-        # inverted_image = gr.Image(label=f"Reconstructed Image", interactive=False)
-        # inverted_image.style(height=512, width=512)
         output_image = gr.Image(label=f"Edited Image", interactive=False)
         output_image.style(height=512, width=512)
     
@@ -138,10 +136,6 @@ with gr.Blocks(css='style.css') as demo:
         tar_prompt = gr.Textbox(lines=1, label="Describe the image yout want", interactive=True, placeholder="tip: use concepts from the original image for the description")
 
     with gr.Row():
-        # with gr.Column(scale=1, min_width=100):
-        #     invert_button = gr.Button("Invert")
-        # with gr.Column(scale=1, min_width=100):
-        #     edit_button = gr.Button("Edit")
         with gr.Column(scale=1, min_width=100):
             edit_button = gr.Button("Run")
 
@@ -195,8 +189,6 @@ with gr.Blocks(css='style.css') as demo:
                     output_image
                ],
         outputs=[output_image ],
-        # fn=edit,
-        # cache_examples=True
     )
 
 
