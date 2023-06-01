@@ -75,7 +75,8 @@ def edit(input_image,
             src_prompt ="", 
             tar_prompt="",
             steps=100,
-            src_cfg_scale = 3.5,
+            cfg_scale_src = 3.5,
+            cfg_scale_tar = 15,
             skip=36,
             seed = 0,
             left = 0,
@@ -93,8 +94,8 @@ def edit(input_image,
 
     #
     xT=wts[skip]
-    etas=eta
-    prompts=[prompt_tar]
+    etas=1.0
+    prompts=[tar_prompt]
     cfg_scales=[cfg_scale_tar]
     prog_bar=False
     zs=zs[skip:]
@@ -149,7 +150,7 @@ def edit(input_image,
                 interm_img = image_grid(x0_dec)
                 yield interm_img
       
-    return interm_img
+    yield interm_img
     
     # # vae decode image
     # with autocast("cuda"), inference_mode():
@@ -211,11 +212,11 @@ with gr.Blocks() as demo:
             with gr.Column():
                 #inversion
                 steps = gr.Number(value=100, precision=0, label="Num Diffusion Steps", interactive=True)
-                src_cfg_scale = gr.Slider(minimum=1, maximum=15, value=3.5, label=f"Source Guidance Scale", interactive=True)
+                cfg_scale_src = gr.Slider(minimum=1, maximum=15, value=3.5, label=f"Source Guidance Scale", interactive=True)
       
                 # reconstruction
                 skip = gr.Slider(minimum=0, maximum=40, value=36, precision=0, label="Skip Steps", interactive=True)
-                tar_cfg_scale = gr.Slider(minimum=7, maximum=18,value=15, label=f"Target Guidance Scale", interactive=True)
+                cfg_scale_tar = gr.Slider(minimum=7, maximum=18,value=15, label=f"Target Guidance Scale", interactive=True)
                 seed = gr.Number(value=0, precision=0, label="Seed", interactive=True)
 
             #shift
@@ -236,7 +237,8 @@ with gr.Blocks() as demo:
                     src_prompt, 
                     src_prompt,
                     steps,
-                    src_cfg_scale,
+                    cfg_scale_src,
+                    cfg_scale_tar,
                     skip,
                     seed,
                     left,
@@ -253,7 +255,8 @@ with gr.Blocks() as demo:
             src_prompt, 
             tar_prompt,
             steps,
-            src_cfg_scale,
+            cfg_scale_src,
+            cfg_scale_tar,
             skip,
             seed,
             left,
@@ -269,9 +272,9 @@ with gr.Blocks() as demo:
         label='Examples', 
         examples=get_example(), 
         inputs=[input_image, src_prompt, tar_prompt, steps,
-                    src_cfg_scale,
+                    cfg_scale_tar,
                     skip,
-                    tar_cfg_scale,
+                    cfg_scale_tar,
                     inverted_image, output_image
                ],
         outputs=[inverted_image,output_image ],
