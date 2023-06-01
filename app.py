@@ -107,7 +107,12 @@ with gr.Blocks(css='style.css') as demo:
             cfg_scale_src = 3.5,
             cfg_scale_tar = 15,
             skip=36,
-            seed = 0,):
+            seed = 0,
+            randomized_seed = True):
+
+        if randomized_seed:
+            seed = random.randint(0, np.iinfo(np.int32).max)
+            
         torch.manual_seed(seed)
          # offsets=(0,0,0,0)
         x0 = load_512(input_image, device=device)
@@ -151,6 +156,7 @@ with gr.Blocks(css='style.css') as demo:
                 skip = gr.Slider(minimum=0, maximum=40, value=36, precision=0, label="Skip Steps", interactive=True)
                 cfg_scale_tar = gr.Slider(minimum=7, maximum=18,value=15, label=f"Target Guidance Scale", interactive=True)
                 seed = gr.Number(value=0, precision=0, label="Seed", interactive=True)
+                randomize_seed = gr.Checkbox(label='Randomize seed', value=True)
             
 
     edit_button.click(
