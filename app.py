@@ -197,12 +197,6 @@ with gr.Blocks() as demo:
     )
 
 
-
-
-    input_image.change(
-        fn = reset
-    )
-
     gr.Examples(
         label='Examples', 
         examples=get_example(), 
