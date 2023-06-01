@@ -85,7 +85,7 @@ def edit(input_image,
 ):
     torch.manual_seed(seed)
      # offsets=(0,0,0,0)
-    x0 = load_512(input_image, left,right, top, bottom, device)
+    x0 = load_512(input_image, device=device)
 
     if not wt:
         # invert and retrieve noise maps and latent
