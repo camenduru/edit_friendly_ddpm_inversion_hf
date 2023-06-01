@@ -27,7 +27,7 @@ def invert(x0, prompt_src="", num_diffusion_steps=100, cfg_scale_src = 3.5, eta 
       w0 = (sd_pipe.vae.encode(x0).latent_dist.mode() * 0.18215).float()
 
   # find Zs and wts - forward process
-  wt, zs, wts = inversion_forward_process(sd_pipe, w0, etas=eta, prompt=prompt_src, cfg_scale=cfg_scale_src, prog_bar=True, num_inference_steps=num_diffusion_steps)
+  wt, zs, wts = inversion_forward_process(sd_pipe, w0, etas=eta, prompt=prompt_src, cfg_scale=cfg_scale_src, prog_bar=False, num_inference_steps=num_diffusion_steps)
   return wt, zs, wts
 
 
@@ -194,17 +194,19 @@ with gr.Blocks() as demo:
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
         input_image.style(height=512, width=512)
-        inverted_image = gr.Image(label=f"Reconstructed Image", interactive=False)
-        inverted_image.style(height=512, width=512)
+        # inverted_image = gr.Image(label=f"Reconstructed Image", interactive=False)
+        # inverted_image.style(height=512, width=512)
         output_image = gr.Image(label=f"Edited Image", interactive=False)
         output_image.style(height=512, width=512)
 
 
     with gr.Row():
+        # with gr.Column(scale=1, min_width=100):
+        #     invert_button = gr.Button("Invert")
+        # with gr.Column(scale=1, min_width=100):
+        #     edit_button = gr.Button("Edit")
         with gr.Column(scale=1, min_width=100):
-            invert_button = gr.Button("Invert")
-        with gr.Column(scale=1, min_width=100):
-            edit_button = gr.Button("Edit")
+            edit_button = gr.Button("Run")
 
 
     with gr.Accordion("Advanced Options", open=False):
@@ -231,23 +233,23 @@ with gr.Blocks() as demo:
 
     # gr.Markdown(help_text)
 
-    invert_button.click(
-        fn=edit,
-        inputs=[input_image, 
-                    src_prompt, 
-                    src_prompt,
-                    steps,
-                    cfg_scale_src,
-                    cfg_scale_tar,
-                    skip,
-                    seed,
-                    left,
-                    right,
-                    top,
-                    bottom
-        ],
-        outputs = [inverted_image],
-    )
+    # invert_button.click(
+    #     fn=edit,
+    #     inputs=[input_image, 
+    #                 src_prompt, 
+    #                 src_prompt,
+    #                 steps,
+    #                 cfg_scale_src,
+    #                 cfg_scale_tar,
+    #                 skip,
+    #                 seed,
+    #                 left,
+    #                 right,
+    #                 top,
+    #                 bottom
+    #     ],
+    #     outputs = [inverted_image],
+    # )
 
     edit_button.click(
         fn=edit,
