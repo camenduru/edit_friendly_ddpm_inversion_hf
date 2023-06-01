@@ -131,9 +131,9 @@ with gr.Blocks(css='style.css') as demo:
     wts = gr.State(value=None)
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
-        input_image.style(height=512, width=512)
+        input_image.style(height=256, width=256)
         output_image = gr.Image(label=f"Edited Image", interactive=False)
-        output_image.style(height=512, width=512)
+        output_image.style(height=256, width=256)
     
     with gr.Row():
         tar_prompt = gr.Textbox(lines=1, label="Describe the image yout want", interactive=True, placeholder="tip: use concepts from the original image for the description")
