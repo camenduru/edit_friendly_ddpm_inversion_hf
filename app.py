@@ -152,7 +152,7 @@ with gr.Blocks(css='style.css') as demo:
                 src_prompt = gr.Textbox(lines=1, label="Source Prompt", interactive=True, placeholder="describe the original image")
                 steps = gr.Number(value=100, precision=0, label="Num Diffusion Steps", interactive=True)
                 cfg_scale_src = gr.Slider(minimum=1, maximum=15, value=3.5, label=f"Source Guidance Scale", interactive=True)
-      
+            with gr.Column():
                 # reconstruction
                 skip = gr.Slider(minimum=0, maximum=40, value=36, precision=0, label="Skip Steps", interactive=True)
                 cfg_scale_tar = gr.Slider(minimum=7, maximum=18,value=15, label=f"Target Guidance Scale", interactive=True)
@@ -170,7 +170,8 @@ with gr.Blocks(css='style.css') as demo:
             cfg_scale_src,
             cfg_scale_tar,
             skip,
-            seed
+            seed,
+            randomize_seed
         ],
         outputs=[output_image],
     )
