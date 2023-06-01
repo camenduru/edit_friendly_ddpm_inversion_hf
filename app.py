@@ -191,7 +191,9 @@ with gr.Blocks() as demo:
             cfg_scale_tar,
             skip,
             seed,
-            new_inversion,
+            wt,
+                zs,
+                wts
 
         ],
         outputs=[output_image],
