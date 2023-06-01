@@ -107,20 +107,18 @@ with gr.Blocks(css='style.css') as demo:
             cfg_scale_src = 3.5,
             cfg_scale_tar = 15,
             skip=36,
-            seed = 0,
-             
-):
-    torch.manual_seed(seed)
-     # offsets=(0,0,0,0)
-    x0 = load_512(input_image, device=device)
-
-    if not wt:
-        # invert and retrieve noise maps and latent
-        wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
+            seed = 0,):
+        torch.manual_seed(seed)
+         # offsets=(0,0,0,0)
+        x0 = load_512(input_image, device=device)
     
-    output = sample(wt, zs, wts, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
-
-    return output
+        if not wt:
+            # invert and retrieve noise maps and latent
+            wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
+        
+        output = sample(wt, zs, wts, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
+    
+        return output
     
     gr.HTML(intro)
     wt = gr.State(value=None)
