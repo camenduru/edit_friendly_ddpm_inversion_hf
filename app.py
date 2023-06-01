@@ -70,36 +70,8 @@ def get_example():
     return case
 
 
-def edit(input_image, 
-            src_prompt ="", 
-            tar_prompt="",
-            steps=100,
-            cfg_scale_src = 3.5,
-            cfg_scale_tar = 15,
-            skip=36,
-            seed = 0,
-            wt = None,
-            zs = None,
-            wts = None
-             
-):
-    torch.manual_seed(seed)
-     # offsets=(0,0,0,0)
-    x0 = load_512(input_image, device=device)
-
-    if not wt:
-        # invert and retrieve noise maps and latent
-        wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
-    
-    output = sample(wt, zs, wts, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
-
-    return output
 
 
-def reset_latents():
-    wt = gr.State(value=None)
-    zs = gr.State(value=None)
-    wts = gr.State(value=None)
 
 
 
@@ -121,6 +93,35 @@ For faster inference without waiting in queue, you may duplicate the space and u
 <img style="margin-top: 0em; margin-bottom: 0em" src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a>
 <p/>"""
 with gr.Blocks() as demo:
+    
+    def reset_latents():
+    wt = gr.State(value=None)
+    zs = gr.State(value=None)
+    wts = gr.State(value=None)
+
+    def edit(input_image,
+             wt, zs, wts,
+            src_prompt ="", 
+            tar_prompt="",
+            steps=100,
+            cfg_scale_src = 3.5,
+            cfg_scale_tar = 15,
+            skip=36,
+            seed = 0,
+             
+):
+    torch.manual_seed(seed)
+     # offsets=(0,0,0,0)
+    x0 = load_512(input_image, device=device)
+
+    if not wt:
+        # invert and retrieve noise maps and latent
+        wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
+    
+    output = sample(wt, zs, wts, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
+
+    return output
+    
     gr.HTML(intro)
     wt = gr.State(value=None)
     zs = gr.State(value=None)
@@ -184,22 +185,23 @@ with gr.Blocks() as demo:
     edit_button.click(
         fn=edit,
         inputs=[input_image, 
+            wt, zs, wts,
             src_prompt, 
             tar_prompt,
             steps,
             cfg_scale_src,
             cfg_scale_tar,
             skip,
-            seed,
-            wt,
-                zs,
-                wts
-
+            seed
         ],
         outputs=[output_image],
     )
 
     input_image.change(
+        fn = reset_latents
+    )
+
+    src_prompt.change(
         fn = reset_latents
     )
 
