@@ -1,5 +1,6 @@
 import gradio as gr
 import torch
+import random
 import requests
 from io import BytesIO
 from diffusers import StableDiffusionPipeline
