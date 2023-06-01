@@ -90,7 +90,7 @@ def edit(input_image,
 
 
     # invert and retrieve noise maps and latent
-    wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=src_cfg_scale)
+    wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
 
     #
     xT=wts[skip]
