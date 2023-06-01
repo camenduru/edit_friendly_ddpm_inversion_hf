@@ -78,86 +78,28 @@ def edit(input_image,
             cfg_scale_src = 3.5,
             cfg_scale_tar = 15,
             skip=36,
-            seed = 0,
-            left = 0,
-            right = 0,
-            top = 0,
-            bottom = 0
+            wt = None,
+            zs = None,
+            wts = None
+             
 ):
     torch.manual_seed(seed)
      # offsets=(0,0,0,0)
     x0 = load_512(input_image, left,right, top, bottom, device)
 
-
-    # invert and retrieve noise maps and latent
-    wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
-
-    # #
-    # xT=wts[skip]
-    # etas=1.0
-    # prompts=[tar_prompt]
-    # cfg_scales=[cfg_scale_tar]
-    # prog_bar=False
-    # zs=zs[skip:]
-
-
-    # batch_size = len(prompts)
-
-    # cfg_scales_tensor = torch.Tensor(cfg_scales).view(-1,1,1,1).to(sd_pipe.device)
-
-    # text_embeddings = encode_text(sd_pipe, prompts)
-    # uncond_embedding = encode_text(sd_pipe, [""] * batch_size)
-
-    # if etas is None: etas = 0
-    # if type(etas) in [int, float]: etas = [etas]*sd_pipe.scheduler.num_inference_steps
-    # assert len(etas) == sd_pipe.scheduler.num_inference_steps
-    # timesteps = sd_pipe.scheduler.timesteps.to(sd_pipe.device)
-
-    # xt = xT.expand(batch_size, -1, -1, -1)
-    # op = tqdm(timesteps[-zs.shape[0]:]) if prog_bar else timesteps[-zs.shape[0]:] 
-
-    # t_to_idx = {int(v):k for k,v in enumerate(timesteps[-zs.shape[0]:])}
-
-    # for t in op:
-    #     idx = t_to_idx[int(t)]        
-    #     ## Unconditional embedding
-    #     with torch.no_grad():
-    #         uncond_out = sd_pipe.unet.forward(xt, timestep =  t, 
-    #                                         encoder_hidden_states = uncond_embedding)
-
-    #         ## Conditional embedding  
-    #     if prompts:  
-    #         with torch.no_grad():
-    #             cond_out = sd_pipe.unet.forward(xt, timestep =  t, 
-    #                                             encoder_hidden_states = text_embeddings)
-            
-        
-    #     z = zs[idx] if not zs is None else None
-    #     z = z.expand(batch_size, -1, -1, -1)
-    #     if prompts:
-    #         ## classifier free guidance
-    #         noise_pred = uncond_out.sample + cfg_scales_tensor * (cond_out.sample - uncond_out.sample)
-    #     else: 
-    #         noise_pred = uncond_out.sample
-    #     # 2. compute less noisy image and set x_t -> x_t-1  
-    #     xt = reverse_step(sd_pipe, noise_pred, t, xt, eta = etas[idx], variance_noise = z)
-
-    #     # interm denoised img
-    #     with autocast("cuda"), inference_mode():
-    #         x0_dec = sd_pipe.vae.decode(1 / 0.18215 * xt).sample
-    #         if x0_dec.dim()<4:
-    #             x0_dec = x0_dec[None,:,:,:]
-    #         interm_img = image_grid(x0_dec)
-    #         yield interm_img
-      
-    # yield interm_img
+    if not wt:
+        # invert and retrieve noise maps and latent
+        wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
     
-
     output = sample(wt, zs, wts, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
 
     return output
 
 
+def reset_latents():
+    wt = gr.State(value=None)
+    zs = gr.State(value=None)
+    wts = gr.State(value=None)
 
 
 
@@ -180,7 +122,9 @@ For faster inference without waiting in queue, you may duplicate the space and u
 <p/>"""
 with gr.Blocks() as demo:
     gr.HTML(intro)
-
+    wt = gr.State(value=None)
+    zs = gr.State(value=None)
+    wts = gr.State(value=None)
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
         input_image.style(height=512, width=512)
@@ -188,7 +132,7 @@ with gr.Blocks() as demo:
         # inverted_image.style(height=512, width=512)
         output_image = gr.Image(label=f"Edited Image", interactive=False)
         output_image.style(height=512, width=512)
-
+    
 
     with gr.Row():
         # with gr.Column(scale=1, min_width=100):
@@ -214,14 +158,6 @@ with gr.Blocks() as demo:
                 skip = gr.Slider(minimum=0, maximum=40, value=36, precision=0, label="Skip Steps", interactive=True)
                 cfg_scale_tar = gr.Slider(minimum=7, maximum=18,value=15, label=f"Target Guidance Scale", interactive=True)
                 seed = gr.Number(value=0, precision=0, label="Seed", interactive=True)
-
-            #shift
-            with gr.Column():
-                left = gr.Number(value=0, precision=0, label="Left Shift", interactive=True)
-                right = gr.Number(value=0, precision=0, label="Right Shift", interactive=True)
-                top = gr.Number(value=0, precision=0, label="Top Shift", interactive=True)
-                bottom = gr.Number(value=0, precision=0, label="Bottom Shift", interactive=True)
-
             
           
 
@@ -255,12 +191,14 @@ with gr.Blocks() as demo:
             cfg_scale_tar,
             skip,
             seed,
-            left,
-            right,
-            top,
-            bottom
+            new_inversion,
+
         ],
         outputs=[output_image],
+    )
+
+    input_image.change(
+        fn = reset_latents
     )
 
 
