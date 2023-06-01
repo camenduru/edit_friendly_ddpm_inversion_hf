@@ -131,12 +131,12 @@ with gr.Blocks(css='style.css') as demo:
     wts = gr.State(value=None)
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
-        input_image.style(height=256, width=256)
+        input_image.style(height=512, width=512)
         output_image = gr.Image(label=f"Edited Image", interactive=False)
-        output_image.style(height=256, width=256)
+        output_image.style(height=512, width=512)
     
     with gr.Row():
-        tar_prompt = gr.Textbox(lines=1, label="Describe the image yout want", interactive=True, placeholder="tip: use concepts from the original image for the description")
+        tar_prompt = gr.Textbox(lines=1, label="Describe your desired edited output image", interactive=True)
 
     with gr.Row():
         with gr.Column(scale=1, min_width=100):
@@ -148,7 +148,7 @@ with gr.Blocks(css='style.css') as demo:
         with gr.Row():
             with gr.Column():
                 #inversion
-                src_prompt = gr.Textbox(lines=1, label="Source Prompt", interactive=True, placeholder="optional: describe the original image")
+                src_prompt = gr.Textbox(lines=1, label="Source Prompt", interactive=True, placeholder="describe the original image")
                 steps = gr.Number(value=100, precision=0, label="Num Diffusion Steps", interactive=True)
                 cfg_scale_src = gr.Slider(minimum=1, maximum=15, value=3.5, label=f"Source Guidance Scale", interactive=True)
       
