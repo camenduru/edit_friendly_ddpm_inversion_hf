@@ -77,6 +77,7 @@ def edit(input_image,
             cfg_scale_src = 3.5,
             cfg_scale_tar = 15,
             skip=36,
+            seed = 0,
             wt = None,
             zs = None,
             wts = None
