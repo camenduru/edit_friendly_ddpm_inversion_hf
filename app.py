@@ -65,7 +65,6 @@ def get_example():
             3.5,
             36,
             15,
-            'Examples/gnochi_mirror_reconstrcution.png', 
             'Examples/gnochi_mirror_watercolor_painting.png', 
              ],]
     return case
@@ -133,6 +132,8 @@ with gr.Blocks() as demo:
         output_image = gr.Image(label=f"Edited Image", interactive=False)
         output_image.style(height=512, width=512)
     
+    with gr.Row():
+        tar_prompt = gr.Textbox(lines=1, label="Describe the image yout want", interactive=True, placeholder="tip: use concepts from the original image for the description")
 
     with gr.Row():
         # with gr.Column(scale=1, min_width=100):
@@ -142,8 +143,6 @@ with gr.Blocks() as demo:
         with gr.Column(scale=1, min_width=100):
             edit_button = gr.Button("Run")
 
-    with gr.Row():
-        tar_prompt = gr.Textbox(lines=1, label="Target Prompt", interactive=True, placeholder="optional: describe the target image")
 
 
     with gr.Accordion("Advanced Options", open=False):
