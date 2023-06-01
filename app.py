@@ -147,8 +147,8 @@ def edit(input_image,
             x0_dec = sd_pipe.vae.decode(1 / 0.18215 * xt).sample
             if x0_dec.dim()<4:
                 x0_dec = x0_dec[None,:,:,:]
-                interm_img = image_grid(x0_dec)
-                yield interm_img
+            interm_img = image_grid(x0_dec)
+            yield interm_img
       
     yield interm_img
     
