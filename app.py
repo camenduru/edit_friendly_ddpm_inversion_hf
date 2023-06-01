@@ -180,9 +180,6 @@ For faster inference without waiting in queue, you may duplicate the space and u
 <p/>"""
 with gr.Blocks() as demo:
     gr.HTML(intro)
-    with gr.Row():
-        src_prompt = gr.Textbox(lines=1, label="Source Prompt", interactive=True, placeholder="optional: describe the original image")
-        tar_prompt = gr.Textbox(lines=1, label="Target Prompt", interactive=True, placeholder="optional: describe the target image")
 
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
@@ -201,11 +198,15 @@ with gr.Blocks() as demo:
         with gr.Column(scale=1, min_width=100):
             edit_button = gr.Button("Run")
 
+    with gr.Row():
+        tar_prompt = gr.Textbox(lines=1, label="Target Prompt", interactive=True, placeholder="optional: describe the target image")
+
 
     with gr.Accordion("Advanced Options", open=False):
         with gr.Row():
             with gr.Column():
                 #inversion
+                src_prompt = gr.Textbox(lines=1, label="Source Prompt", interactive=True, placeholder="optional: describe the original image")
                 steps = gr.Number(value=100, precision=0, label="Num Diffusion Steps", interactive=True)
                 cfg_scale_src = gr.Slider(minimum=1, maximum=15, value=3.5, label=f"Source Guidance Scale", interactive=True)
       
