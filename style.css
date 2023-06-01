@@ -1,0 +1,27 @@
+h1 {
+  text-align: center;
+}
+
+.gradio-container {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.gr-button {
+  color: white;
+  border-color: black;
+  background: black;
+}
+
+input[type='range'] {
+  accent-color: black;
+}
+
+.dark input[type='range'] {
+  accent-color: #dfdfdf;
+}
+
+.container {
+  max-width: 730px;
+  margin: auto;
+  padding-top: 1.5rem;
+}
