@@ -277,9 +277,9 @@ with gr.Blocks() as demo:
                     cfg_scale_tar,
                     skip,
                     cfg_scale_tar,
-                    inverted_image, output_image
+                    output_image
                ],
-        outputs=[inverted_image,output_image ],
+        outputs=[output_image ],
         # fn=edit,
         # cache_examples=True
     )
