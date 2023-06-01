@@ -105,8 +105,8 @@ def edit(input_image,
 
     cfg_scales_tensor = torch.Tensor(cfg_scales).view(-1,1,1,1).to(sd_pipe.device)
 
-    text_embeddings = encode_text(model, prompts)
-    uncond_embedding = encode_text(model, [""] * batch_size)
+    text_embeddings = encode_text(sd_pipe, prompts)
+    uncond_embedding = encode_text(sd_pipe, [""] * batch_size)
 
     if etas is None: etas = 0
     if type(etas) in [int, float]: etas = [etas]*sd_pipe.scheduler.num_inference_steps
