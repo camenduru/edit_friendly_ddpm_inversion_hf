@@ -92,7 +92,7 @@ For faster inference without waiting in queue, you may duplicate the space and u
 <a href="https://huggingface.co/spaces/LinoyTsaban/ddpm_sega?duplicate=true">
 <img style="margin-top: 0em; margin-bottom: 0em" src="https://bit.ly/3gLdBN6" alt="Duplicate Space"></a>
 <p/>"""
-with gr.Blocks() as demo:
+with gr.Blocks(css='style.css') as demo:
     
     def reset_latents():
     wt = gr.State(value=None)
@@ -160,27 +160,6 @@ with gr.Blocks() as demo:
                 cfg_scale_tar = gr.Slider(minimum=7, maximum=18,value=15, label=f"Target Guidance Scale", interactive=True)
                 seed = gr.Number(value=0, precision=0, label="Seed", interactive=True)
             
-          
-
-    # gr.Markdown(help_text)
-
-    # invert_button.click(
-    #     fn=edit,
-    #     inputs=[input_image, 
-    #                 src_prompt, 
-    #                 src_prompt,
-    #                 steps,
-    #                 cfg_scale_src,
-    #                 cfg_scale_tar,
-    #                 skip,
-    #                 seed,
-    #                 left,
-    #                 right,
-    #                 top,
-    #                 bottom
-    #     ],
-    #     outputs = [inverted_image],
-    # )
 
     edit_button.click(
         fn=edit,
