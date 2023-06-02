@@ -124,9 +124,6 @@ with gr.Blocks(css='style.css') as demo:
             wt = gr.State(value=wt)
             zs = gr.State(value=zs)
             wts = gr.State(value=wts)
-            output = sample(wt, zs, wts, prompt_tar=src_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
-            return output
-
         
         output = sample(wt, zs, wts, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
     
@@ -143,7 +140,7 @@ with gr.Blocks(css='style.css') as demo:
         output_image.style(height=512, width=512)
     
     with gr.Row():
-        tar_prompt = gr.Textbox(lines=1, label="Describe your desired edited output image", interactive=True)
+        tar_prompt = gr.Textbox(lines=1, label="Describe your desired edited output", interactive=True)
 
     with gr.Row():
         with gr.Column(scale=1, min_width=100):
