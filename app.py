@@ -134,9 +134,9 @@ with gr.Blocks(css='style.css') as demo:
         return output
     
     gr.HTML(intro)
-    wt = gr.State(value=None)
-    zs = gr.State(value=None)
-    wts = gr.State(value=None)
+    wt = gr.State(value=False)
+    zs = gr.State(value=False)
+    wts = gr.State(value=False)
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
         input_image.style(height=512, width=512)
