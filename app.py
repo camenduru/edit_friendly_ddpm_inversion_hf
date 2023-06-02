@@ -121,6 +121,9 @@ with gr.Blocks(css='style.css') as demo:
         if not wt:
             # invert and retrieve noise maps and latent
             wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
+            wt = gr.State(value=wt)
+            zs = gr.State(value=zs)
+            wts = gr.State(value=wts)
             output = sample(wt, zs, wts, prompt_tar=src_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
             return output
 
