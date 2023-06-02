@@ -29,14 +29,14 @@ def invert(x0, prompt_src="", num_diffusion_steps=100, cfg_scale_src = 3.5, eta 
 
   # find Zs and wts - forward process
   wt, zs, wts = inversion_forward_process(sd_pipe, w0, etas=eta, prompt=prompt_src, cfg_scale=cfg_scale_src, prog_bar=False, num_inference_steps=num_diffusion_steps)
-  return wt, zs, wts
+  return zs, wts
 
 
 
-def sample(wt, zs, wts, prompt_tar="", cfg_scale_tar=15, skip=36, eta = 1):
+def sample(zs, xT, prompt_tar="", cfg_scale_tar=15, eta = 1):
 
     # reverse process (via Zs and wT)
-    w0, _ = inversion_reverse_process(sd_pipe, xT=wts[skip], etas=eta, prompts=[prompt_tar], cfg_scales=[cfg_scale_tar], prog_bar=False, zs=zs[skip:])
+    w0, _ = inversion_reverse_process(sd_pipe, xT=xT, etas=eta, prompts=[prompt_tar], cfg_scales=[cfg_scale_tar], prog_bar=False, zs=zs)
     
     # vae decode image
     with autocast("cuda"), inference_mode():
@@ -101,7 +101,7 @@ with gr.Blocks(css='style.css') as demo:
         wts = gr.State(value=None)
 
     def edit(input_image,
-             wt, zs, wts,
+            xt, zs,
             src_prompt ="", 
             tar_prompt="",
             steps=100,
@@ -120,12 +120,11 @@ with gr.Blocks(css='style.css') as demo:
     
         if not wt:
             # invert and retrieve noise maps and latent
-            wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
-            wt = gr.State(value=wt)
-            zs = gr.State(value=zs)
-            wts = gr.State(value=wts)
+            zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
+            xt = gr.State(value=wts[skip])
+            zs = gr.State(value=zs[skip:])
         
-        output = sample(wt, zs, wts, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
+        output = sample(zs, xt, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
     
         return output
     
