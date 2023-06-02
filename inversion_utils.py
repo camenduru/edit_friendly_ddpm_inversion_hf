@@ -262,7 +262,7 @@ def inversion_reverse_process(model,
     assert len(etas) == model.scheduler.num_inference_steps
     timesteps = model.scheduler.timesteps.to(model.device)
 
-    xt = xT.expand(batch_size, -1, -1, -1)
+    # xt = xT.expand(batch_size, -1, -1, -1)
     op = tqdm(timesteps[-zs.shape[0]:]) if prog_bar else timesteps[-zs.shape[0]:] 
 
     t_to_idx = {int(v):k for k,v in enumerate(timesteps[-zs.shape[0]:])}
