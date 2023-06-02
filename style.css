@@ -76,7 +76,7 @@ input[type='range'] {
 .animate-spin {
   animation: spin 1s linear infinite;
 }
-
+/* 
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -85,46 +85,8 @@ input[type='range'] {
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
-/* #share-btn-container {
-  display: flex;
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
-  background-color: #000000;
-  justify-content: center;
-  align-items: center;
-  border-radius: 9999px !important;
-  width: 13rem;
-  margin-top: 10px;
-  margin-left: auto;
-}
- */
-/* #share-btn {
-  all: initial;
-  color: #ffffff;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'IBM Plex Sans', sans-serif;
-  margin-left: 0.5rem !important;
-  padding-top: 0.25rem !important;
-  padding-bottom: 0.25rem !important;
-  right: 0;
-}
- */
-/* #share-btn * {
-  all: unset;
-}
-
-#share-btn-container div:nth-child(-n+2) {
-  width: auto !important;
-  min-height: 0px !important;
-}
-
-#share-btn-container .wrap {
-  display: none !important;
-}
- */
 .gr-form {
   flex: 1 1 50%;
   border-top-right-radius: 0;
@@ -157,41 +119,3 @@ input[type='range'] {
   padding-top: 1.5rem;
 }
 
-/* #upscaled-image img {
-  object-fit: scale-down;
-} */
-/* share button */
-/* #share-btn-container {
-  display: flex;
-  padding-left: 0.5rem !important;
-  padding-right: 0.5rem !important;
-  background-color: #000000;
-  justify-content: center;
-  align-items: center;
-  border-radius: 9999px !important; 
-  width: 13rem;
-  margin-top: 10px;
-  margin-left: auto;
-  flex: unset !important;
-}
-#share-btn {
-  all: initial;
-  color: #ffffff;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'IBM Plex Sans', sans-serif;
-  margin-left: 0.5rem !important;
-  padding-top: 0.25rem !important;
-  padding-bottom: 0.25rem !important;
-  right:0;
-}
-#share-btn * {
-  all: unset !important;
-}
-#share-btn-container div:nth-child(-n+2){
-  width: auto !important;
-  min-height: 0px !important;
-}
-#share-btn-container .wrap {
-  display: none !important;
-} */ 
