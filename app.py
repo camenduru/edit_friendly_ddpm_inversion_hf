@@ -96,9 +96,9 @@ For faster inference without waiting in queue, you may duplicate the space and u
 with gr.Blocks(css='style.css') as demo:
     
     def reset_latents():
-        wt = gr.State(value=None)
+        xt = gr.State(value=None)
         zs = gr.State(value=None)
-        wts = gr.State(value=None)
+
 
     def edit(input_image,
             xt, zs,
@@ -183,6 +183,10 @@ with gr.Blocks(css='style.css') as demo:
     )
 
     src_prompt.change(
+        fn = reset_latents
+    )
+
+    skip.change(
         fn = reset_latents
     )
 
