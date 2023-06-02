@@ -118,7 +118,7 @@ with gr.Blocks(css='style.css') as demo:
          # offsets=(0,0,0,0)
         x0 = load_512(input_image, device=device)
     
-        if not wts.value:
+        if not wts:
             # invert and retrieve noise maps and latent
             zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
             # xt = gr.State(value=wts[skip])
@@ -182,11 +182,13 @@ with gr.Blocks(css='style.css') as demo:
     )
 
     input_image.change(
-        fn = reset_latents
+        fn = reset_latents,
+        outputs = [wts, zs]
     )
 
     src_prompt.change(
-        fn = reset_latents
+        fn = reset_latents,
+        outputs = [wts, zs]
     )
 
     # skip.change(
