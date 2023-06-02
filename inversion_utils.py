@@ -9,6 +9,7 @@ import yaml
 import numpy as np
 import gradio as gr
 
+# This file was copied from the DDPM inversion Repo - https://github.com/inbarhub/DDPM_inversion #
 
 def load_512(image_path, left=0, right=0, top=0, bottom=0, device=None):
     if type(image_path) is str:
