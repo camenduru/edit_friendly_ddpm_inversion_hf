@@ -123,9 +123,8 @@ with gr.Blocks(css='style.css') as demo:
             zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
             xt = gr.State(value=wts[skip])
             zs = gr.State(value=zs[skip:])
-            xt.value
         
-        output = sample(zs, xt, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
+        output = sample(zs.value, xt.value, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
     
         return output, xt, zs
     
