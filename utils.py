@@ -6,6 +6,8 @@ import os
 import torch 
 import yaml
 
+# This file was copied from the DDPM inversion Repo - https://github.com/inbarhub/DDPM_inversion #
+
 def show_torch_img(img):
     img = to_np_image(img)
     plt.imshow(img)
