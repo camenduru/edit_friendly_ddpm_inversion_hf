@@ -121,13 +121,8 @@ with gr.Blocks(css='style.css') as demo:
         if not wt:
             # invert and retrieve noise maps and latent
             wt, zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
-            # vae decode image
-            with autocast("cuda"), inference_mode():
-                x0_dec = sd_pipe.vae.decode(1 / 0.18215 * x0.expand(1, -1, -1, -1)).sample
-            if x0_dec.dim()<4:
-                x0_dec = x0_dec[None,:,:,:]
-            img = image_grid(x0_dec)
-            return img
+            output = sample(wt, zs, wts, prompt_tar=src_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
+
         
         output = sample(wt, zs, wts, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar, skip=skip)
     
