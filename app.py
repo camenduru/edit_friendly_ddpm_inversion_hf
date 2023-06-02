@@ -90,6 +90,30 @@ def get_example():
             36,
             15,
  
+             ],
+
+        [
+            'Examples/source_a_ceramic_vase_with_yellow_flowers.jpeg', 
+            'A pink ceramic vase with a wheat bouquet',
+            'Examples/ddpm_a_pink_ceramic_vase_with_a_wheat_bouquet.png', 
+            '',
+            100,
+            3.5,
+            36,
+            15,
+ 
+             ],
+
+        [
+            'Examples/source_a_model_on_a_runway.jpeg', 
+            'A zebra on the runway',
+            'Examples/ddpm_a_zebra_on_the_run_way.png', 
+            '',
+            100,
+            3.5,
+            36,
+            15,
+ 
              ]
     
     
