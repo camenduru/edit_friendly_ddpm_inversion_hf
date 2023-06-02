@@ -121,11 +121,11 @@ with gr.Blocks(css='style.css') as demo:
     
         if not wts:
             # invert and retrieve noise maps and latent
-            zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
+            zs_tensor, wts_tensor = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
             # xt = gr.State(value=wts[skip])
             # zs = gr.State(value=zs[skip:])
-            wts = gr.State(value=wts)
-            zs = gr.State(value=zs)
+            wts = gr.State(value=wts_tensor)
+            zs = gr.State(value=zs_tensor)
         
         # output = sample(zs.value, xt.value, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
         output = sample(zs.value, wts.value, prompt_tar=tar_prompt, skip=skip, cfg_scale_tar=cfg_scale_tar)
