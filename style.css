@@ -71,7 +71,7 @@ input[type='range'] {
   --tw-ring-opacity: .5;
 }
 
-#advanced-btn {
+/* #advanced-btn {
   font-size: .7rem !important;
   line-height: 19px;
   margin-top: 12px;
@@ -235,4 +235,4 @@ input[type='range'] {
 }
 #share-btn-container .wrap {
   display: none !important;
-}
+} */
