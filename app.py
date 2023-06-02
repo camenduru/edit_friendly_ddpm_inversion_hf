@@ -101,7 +101,8 @@ with gr.Blocks(css='style.css') as demo:
 
 
     def edit(input_image,
-              do_inversion, 
+            do_inversion, 
+             wts, zs,
             src_prompt ="", 
             tar_prompt="",
             steps=100,
@@ -170,7 +171,7 @@ with gr.Blocks(css='style.css') as demo:
     edit_button.click(
         fn=edit,
         inputs=[input_image,
-                do_inversion, 
+                do_inversion, wts, zs, 
             src_prompt, 
             tar_prompt,
             steps,
