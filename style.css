@@ -31,7 +31,7 @@ input[type='range'] {
   padding-top: 1.5rem;
 }
 
-#gallery {
+/* #gallery {
   min-height: auto;
   height: 185px;
   margin-top: 15px;
@@ -58,7 +58,7 @@ input[type='range'] {
 
 .gr-button {
   white-space: nowrap;
-}
+} */
 
 .gr-button:focus {
   border-color: rgb(147 197 253 / var(--tw-border-opacity));
