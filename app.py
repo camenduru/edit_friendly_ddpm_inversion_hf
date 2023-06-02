@@ -101,7 +101,6 @@ with gr.Blocks(css='style.css') as demo:
 
 
     def edit(input_image,
-            do_inversion,
             src_prompt ="", 
             tar_prompt="",
             steps=100,
