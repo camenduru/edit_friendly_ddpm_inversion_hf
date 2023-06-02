@@ -135,6 +135,7 @@ intro = """
    Edit Friendly DDPM Inversion
 </h1>
 <p style="font-size: 0.9rem; text-align: center; margin: 0rem; line-height: 1.2em; margin-top:1em">
+Based on the work introduced in:
 <a href="https://arxiv.org/abs/2301.12247" style="text-decoration: underline;" target="_blank">An Edit Friendly DDPM Noise Space:
 Inversion and Manipulations </a> 
 <p/>
