@@ -31,34 +31,6 @@ input[type='range'] {
   padding-top: 1.5rem;
 }
 
-/* #gallery {
-  min-height: auto;
-  height: 185px;
-  margin-top: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  border-bottom-right-radius: .5rem !important;
-  border-bottom-left-radius: .5rem !important;
-}
-#gallery .grid-wrap, #gallery .empty{
-  height: 185px;
-  min-height: 185px;
-}
-#gallery .preview{
-  height: 185px;
-  min-height: 185px!important;
-}
-#gallery>div>.h-full {
-  min-height: 20rem;
-}
-
-.details:hover {
-  text-decoration: underline;
-}
-
-.gr-button {
-  white-space: nowrap;
-} */
 
 .gr-button:focus {
   border-color: rgb(147 197 253 / var(--tw-border-opacity));
@@ -71,19 +43,6 @@ input[type='range'] {
   --tw-ring-opacity: .5;
 }
 
-/* #advanced-btn {
-  font-size: .7rem !important;
-  line-height: 19px;
-  margin-top: 12px;
-  margin-bottom: 12px;
-  padding: 2px 8px;
-  border-radius: 14px !important;
-}
-
-#advanced-options {
-  display: none;
-  margin-bottom: 20px;
-} */
 
 .footer {
   margin-bottom: 45px;
@@ -128,7 +87,7 @@ input[type='range'] {
   }
 }
 
-#share-btn-container {
+/* #share-btn-container {
   display: flex;
   padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
@@ -140,8 +99,8 @@ input[type='range'] {
   margin-top: 10px;
   margin-left: auto;
 }
-
-#share-btn {
+ */
+/* #share-btn {
   all: initial;
   color: #ffffff;
   font-weight: 600;
@@ -152,8 +111,8 @@ input[type='range'] {
   padding-bottom: 0.25rem !important;
   right: 0;
 }
-
-#share-btn * {
+ */
+/* #share-btn * {
   all: unset;
 }
 
@@ -165,7 +124,7 @@ input[type='range'] {
 #share-btn-container .wrap {
   display: none !important;
 }
-
+ */
 .gr-form {
   flex: 1 1 50%;
   border-top-right-radius: 0;
@@ -198,11 +157,11 @@ input[type='range'] {
   padding-top: 1.5rem;
 }
 
-#upscaled-image img {
+/* #upscaled-image img {
   object-fit: scale-down;
-}
+} */
 /* share button */
-#share-btn-container {
+/* #share-btn-container {
   display: flex;
   padding-left: 0.5rem !important;
   padding-right: 0.5rem !important;
@@ -235,4 +194,4 @@ input[type='range'] {
 }
 #share-btn-container .wrap {
   display: none !important;
-} */
+} */ 
