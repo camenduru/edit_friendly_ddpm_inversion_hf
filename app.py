@@ -60,14 +60,40 @@ def get_example():
     case = [
         [
             'Examples/gnochi_mirror.jpeg', 
+            'Watercolor painting of a cat sitting next to a mirror',
+            'Examples/gnochi_mirror_watercolor_painting.png', 
             '',
-            'watercolor painting of a cat sitting next to a mirror',
             100,
             3.5,
             36,
             15,
-            'Examples/gnochi_mirror_watercolor_painting.png', 
-             ],]
+ 
+             ],
+        [
+            'Examples/source_an_old_man.png', 
+            'A bronze statue of an old man',
+            'Examples/ddpm_a_bronze_statue_of_an_old_man.png', 
+            '',
+            100,
+            3.5,
+            36,
+            15,
+ 
+             ],
+        [
+            'Examples/source_a_ceramic_vase_with_yellow_flowers.jpeg', 
+            'A pink ceramic vase with a wheat bouquet',
+            'Examples/ddpm_a_pink_ceramic_vase_with_a_wheat_bouquet.png', 
+            '',
+            100,
+            3.5,
+            36,
+            15,
+ 
+             ]
+    
+    
+    ]
     return case
 
 
@@ -202,11 +228,11 @@ with gr.Blocks(css='style.css') as demo:
     gr.Examples(
         label='Examples', 
         examples=get_example(), 
-        inputs=[input_image, src_prompt, tar_prompt, steps,
+        inputs=[input_image, tar_prompt,output_image, src_prompt,steps,
                     cfg_scale_tar,
                     skip,
-                    cfg_scale_tar,
-                    output_image
+                    cfg_scale_tar
+                    
                ],
         outputs=[output_image ],
     )
