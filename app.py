@@ -33,7 +33,7 @@ def invert(x0, prompt_src="", num_diffusion_steps=100, cfg_scale_src = 3.5, eta 
 
 
 
-def sample(zs, wts, prompt_tar="", cfg_scale_tar=15, eta = 1):
+def sample(zs, wts, prompt_tar="", skip=36, cfg_scale_tar=15, eta = 1):
 
     # reverse process (via Zs and wT)
     w0, _ = inversion_reverse_process(sd_pipe, xT=wts[skip], etas=eta, prompts=[prompt_tar], cfg_scales=[cfg_scale_tar], prog_bar=False, zs=zs[skip:])
@@ -127,7 +127,7 @@ with gr.Blocks(css='style.css') as demo:
             zs = gr.State(value=zs)
         
         # output = sample(zs.value, xt.value, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
-        output = sample(zs.value, wts.value, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
+        output = sample(zs.value, wts.value, prompt_tar=tar_prompt, skip=skip, cfg_scale_tar=cfg_scale_tar)
     
         return output, wts, zs
     
