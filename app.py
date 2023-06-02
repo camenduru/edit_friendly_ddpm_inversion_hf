@@ -98,6 +98,7 @@ with gr.Blocks(css='style.css') as demo:
     def reset_latents():
         wts = gr.State(value=False)
         zs = gr.State(value=False)
+        return wts, zs
 
 
     def edit(input_image,
