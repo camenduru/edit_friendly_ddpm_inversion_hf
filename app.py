@@ -33,10 +33,10 @@ def invert(x0, prompt_src="", num_diffusion_steps=100, cfg_scale_src = 3.5, eta 
 
 
 
-def sample(zs, xT, prompt_tar="", cfg_scale_tar=15, eta = 1):
+def sample(zs, wts, prompt_tar="", cfg_scale_tar=15, eta = 1):
 
     # reverse process (via Zs and wT)
-    w0, _ = inversion_reverse_process(sd_pipe, xT=xT, etas=eta, prompts=[prompt_tar], cfg_scales=[cfg_scale_tar], prog_bar=False, zs=zs)
+    w0, _ = inversion_reverse_process(sd_pipe, xT=wts[skip], etas=eta, prompts=[prompt_tar], cfg_scales=[cfg_scale_tar], prog_bar=False, zs=zs[skip:])
     
     # vae decode image
     with autocast("cuda"), inference_mode():
@@ -96,7 +96,7 @@ For faster inference without waiting in queue, you may duplicate the space and u
 with gr.Blocks(css='style.css') as demo:
     
     def reset_latents():
-        xt = gr.State(value=False)
+        wts = gr.State(value=False)
         zs = gr.State(value=False)
 
 
@@ -121,15 +121,19 @@ with gr.Blocks(css='style.css') as demo:
         if not xt:
             # invert and retrieve noise maps and latent
             zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
-            xt = gr.State(value=wts[skip])
-            zs = gr.State(value=zs[skip:])
+            # xt = gr.State(value=wts[skip])
+            # zs = gr.State(value=zs[skip:])
+            wts = gr.State(value=wts)
+            zs = gr.State(value=zs)
         
-        output = sample(zs.value, xt.value, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
+        # output = sample(zs.value, xt.value, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
+        output = sample(zs.value, wts.value, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
     
-        return output, xt, zs
+        return output, wts, zs
     
     gr.HTML(intro)
-    xt = gr.State(value=False)
+    # xt = gr.State(value=False)
+    wts = gr.State(value=False)
     zs = gr.State(value=False)
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
@@ -164,7 +168,7 @@ with gr.Blocks(css='style.css') as demo:
     edit_button.click(
         fn=edit,
         inputs=[input_image, 
-            xt, zs,
+            wts, zs,
             src_prompt, 
             tar_prompt,
             steps,
@@ -174,7 +178,7 @@ with gr.Blocks(css='style.css') as demo:
             seed,
             randomize_seed
         ],
-        outputs=[output_image, xt, zs],
+        outputs=[output_image, wts, zs],
     )
 
     input_image.change(
@@ -185,9 +189,9 @@ with gr.Blocks(css='style.css') as demo:
         fn = reset_latents
     )
 
-    skip.change(
-        fn = reset_latents
-    )
+    # skip.change(
+    #     fn = reset_latents
+    # )
 
 
     gr.Examples(
