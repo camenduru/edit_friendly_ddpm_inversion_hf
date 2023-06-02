@@ -95,14 +95,14 @@ For faster inference without waiting in queue, you may duplicate the space and u
 <p/>"""
 with gr.Blocks(css='style.css') as demo:
     
-    def reset_latents():
-        wts = gr.State(value=False)
-        zs = gr.State(value=False)
-        return wts, zs
+    def reset_do_inversion():
+        do_inversion = True
+        return do_inversion
 
 
     def edit(input_image,
             wts, zs,
+            do_inversion,
             src_prompt ="", 
             tar_prompt="",
             steps=100,
@@ -119,23 +119,25 @@ with gr.Blocks(css='style.css') as demo:
          # offsets=(0,0,0,0)
         x0 = load_512(input_image, device=device)
     
-        if not wts:
+        if do_inversion:
             # invert and retrieve noise maps and latent
             zs_tensor, wts_tensor = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
             # xt = gr.State(value=wts[skip])
             # zs = gr.State(value=zs[skip:])
             wts = gr.State(value=wts_tensor)
             zs = gr.State(value=zs_tensor)
+            do_inversion = False
         
         # output = sample(zs.value, xt.value, prompt_tar=tar_prompt, cfg_scale_tar=cfg_scale_tar)
         output = sample(zs.value, wts.value, prompt_tar=tar_prompt, skip=skip, cfg_scale_tar=cfg_scale_tar)
     
-        return output, wts, zs
+        return output, wts, zs, do_inversion
     
     gr.HTML(intro)
     # xt = gr.State(value=False)
-    wts = gr.State(value=False)
-    zs = gr.State(value=False)
+    wts = gr.State()
+    zs = gr.State()
+    do_inversion = gr.State(value=True)
     with gr.Row():
         input_image = gr.Image(label="Input Image", interactive=True)
         input_image.style(height=512, width=512)
@@ -179,17 +181,17 @@ with gr.Blocks(css='style.css') as demo:
             seed,
             randomize_seed
         ],
-        outputs=[output_image, wts, zs],
+        outputs=[output_image, wts, zs, do_inversion],
     )
 
     input_image.change(
-        fn = reset_latents,
-        outputs = [wts, zs]
+        fn = reset_do_inversion,
+        outputs = [do_inversion]
     )
 
     src_prompt.change(
-        fn = reset_latents,
-        outputs = [wts, zs]
+        fn = reset_do_inversion,
+        outputs = [do_inversion]
     )
 
     # skip.change(
