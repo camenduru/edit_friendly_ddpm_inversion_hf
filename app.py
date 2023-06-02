@@ -165,7 +165,7 @@ with gr.Blocks(css='style.css') as demo:
     edit_button.click(
         fn=edit,
         inputs=[input_image, 
-            wt, zs, wts,
+            xt, zs,
             src_prompt, 
             tar_prompt,
             steps,
