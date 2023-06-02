@@ -44,7 +44,7 @@ input[type='range'] {
 }
 
 
-.footer {
+/* .footer {
   margin-bottom: 45px;
   margin-top: 35px;
   text-align: center;
@@ -75,7 +75,7 @@ input[type='range'] {
 
 .animate-spin {
   animation: spin 1s linear infinite;
-}
+} */
 /* 
 @keyframes spin {
   from {
