@@ -101,7 +101,7 @@ with gr.Blocks(css='style.css') as demo:
 
 
     def edit(input_image,
-            xt, zs,
+            wts, zs,
             src_prompt ="", 
             tar_prompt="",
             steps=100,
@@ -118,7 +118,7 @@ with gr.Blocks(css='style.css') as demo:
          # offsets=(0,0,0,0)
         x0 = load_512(input_image, device=device)
     
-        if not xt:
+        if not wts:
             # invert and retrieve noise maps and latent
             zs, wts = invert(x0 =x0 , prompt_src=src_prompt, num_diffusion_steps=steps, cfg_scale_src=cfg_scale_src)
             # xt = gr.State(value=wts[skip])
